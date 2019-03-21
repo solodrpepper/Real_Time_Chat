@@ -1,0 +1,25 @@
+{
+  "name": "real_time_chat",
+  "version": "1.0.0",
+  "description": "Chat app for CS313",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Austin Kincade",
+  "license": "ISC",
+  "dependencies": {
+    "ejs": "^2.6.1",
+    "express": "^4.16.4",
+    "nodemon": "^1.18.10"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/solodrpepper/Real_Time_Chat.git"
+  }
+}
