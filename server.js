@@ -1,14 +1,9 @@
 // Grab all my dependencies
-// express
-const express = require("express");
+const express = require("express"); // express
 const app = express();
-// for sessions
-const session = require("express-session");
-// for bycrpt
-const bcrypt = require("bcrypt");
-// for pooling
-const { Pool } = require("pg");
-
+const session = require("express-session"); // for sessions
+const bcrypt = require("bcrypt"); // for bycrpt
+const { Pool } = require("pg"); // for pooling
 const bodyParser = require('body-parser');
 
 app.use(express.json());
@@ -16,12 +11,11 @@ app.use(express.urlencoded({ extended: true }));
 
 // set up server
 const server = require("http").createServer(app);
+const io = require("socket.io").listen(server); // socket.io
+require("dotenv").config(); // for database connection
 
-// socket.io
-const io = require("socket.io").listen(server);
-
-// for database connection
-require("dotenv").config();
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // Middleware to check if the user is logged in
 function requireLogin(req, res, next) {
@@ -31,9 +25,6 @@ function requireLogin(req, res, next) {
       next();
    }
 }
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 //SESSION INITIALIZATION
 app.set('trust proxy', 1) // trust first proxy
@@ -45,9 +36,6 @@ app.use(session({
   cookie: { secure: true }
 }));
 
-
-
-
 // MOST LIKELY WILL NEED TO MOVE TO MODEL
 users = [];
 connections = [];
@@ -58,16 +46,14 @@ const port = process.env.PORT || 5000;
 // Give permissions to get static files
 app.use(express.static("public"));
 
-app.get("/", requireLogin, function(req, res) {
+app.get("/", function(req, res) {
    // Check if user is logged in
-   res.sendFile(__dirname + "/public/index.html");
-
-   //res.redirect("login.html");
+   //res.sendFile(__dirname + "/public/home.html");
+   res.redirect("login.html");
 });
 
 // For registration
 app.post("/register", handleRegister);
-
 app.post("/login", handleLogin);
 
 server.listen(port, () => {
@@ -82,9 +68,9 @@ io.sockets.on("connection", function(socket) {
    // Disconnect
    socket.on("disconnect", function(data) {
       //if (!socket.username) return;
-      users.splice(users.indexOf(socket.username), 1);
+      users.splice(users.homeOf(socket.username), 1);
       updateUsernames();
-      connections.splice(connections.indexOf(socket), 1);
+      connections.splice(connections.homeOf(socket), 1);
       console.log(`Socket disconnected: ${connections.length} still connected`);
    });
 
@@ -139,9 +125,10 @@ function handleLogin(req, res) {
             // Passwords match
 
             // TODO: We should start a session here
+            req.session.user = username;
 
             // And we finally redirect them to the home page
-            res.redirect("index.html");
+            res.redirect("home.html");
          } else {
             // Passwords don't match
             // TODO: Handle the mismatch
