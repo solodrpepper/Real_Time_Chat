@@ -1,16 +1,156 @@
 <!DOCTYPE html>
+
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>RTC - Register</title>
-</head>
-<body>
-    <form action="/register" method="post">
-        <input type="text" placeholder="Username" name="username" /><br />
-        <input type="password" placeholder="Password" name="password" /><br />
-        <input type="submit" />
-    </form>
-</body>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+
+      <!-- CSS -->
+      <link
+         rel="stylesheet"
+         href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+         crossorigin="anonymous"
+      />
+
+      <!-- Font Awesome -->
+      <link
+         rel="stylesheet"
+         href="https://use.fontawesome.com/releases/v5.7.1/css/all.css"
+         integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+         crossorigin="anonymous"
+      />
+
+      <!-- My CSS -->
+      <link rel="stylesheet" href="main.css" />
+
+      <!-- JavaScript -->
+      <script
+         src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+         integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+         crossorigin="anonymous"
+      ></script>
+      <script
+         src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+         crossorigin="anonymous"
+      ></script>
+      <script
+         src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+         crossorigin="anonymous"
+      ></script>
+
+      <!-- Check to see if the passwords match before we let them continue -->
+      <script>
+         function checkIfPasswordsMatch() {
+            password = document.getElementById("password_id").value;
+            cPassword = document.getElementById("cpassword_id").value;
+            if (password === cPassword) {
+               // Clear the error if there is one
+               document.getElementById("passwordError").style.visibility =
+                  "hidden";
+               document.getElementById("passwordError").innerHTML = "";
+
+               // then submit
+               return true;
+            } else {
+               document.getElementById("passwordError").style.visibility =
+                  "visible";
+               document.getElementById("passwordError").innerHTML =
+                  "Sorry, your passwords don't match";
+               document.getElementById("cpassword_id").value = "";
+               document.getElementById("cpassword_id").focus();
+               return false;
+            }
+         }
+
+         function submitForm() {
+            if (checkIfPasswordsMatch()) {
+               document.getElementById("sign_up_form").submit();
+            } else {
+               // Do squat
+            }
+         }
+      </script>
+
+      <title>RTC - Register</title>
+   </head>
+
+   <body>
+      <div style="margin-top: 20px"></div>
+      <div class="container login_form">
+         <div class="row justify-content-md-center">
+            <div class="col-lg-4">
+               <div class="card">
+                  <article class="card-body">
+                        <a href="/login.html" class="float-right btn btn-outline-primary">Login</a>
+                     <h4 class="card-title mb-4 mt-1">Sign up</h4>
+                     <form
+                        NAME="signUpForm"
+                        METHOD="post"
+                        id="sign_up_form"
+                        action="/register"
+                     >
+                        <div class="form-group">
+                           <label>Your Username</label>
+                           <input
+                              class="form-control"
+                              name="username"
+                              placeholder="Username"
+                              type="text"
+                              required
+                              autofocus
+                              maxlength="16"
+                           />
+                        </div>
+                        <!-- form-group username// -->
+                        <div class="form-group">
+                           <label>Your password</label>
+                           <INPUT
+                              class="form-control"
+                              name="password"
+                              id="password_id"
+                              required
+                              placeholder="******"
+                              type="password"
+                           />
+                        </div>
+                        <!-- form-group password// -->
+                        <div class="form-group">
+                           <label>Confirm password</label>
+                           <INPUT
+                              class="form-control"
+                              name="cpassword"
+                              id="cpassword_id"
+                              required
+                              placeholder="******"
+                              type="password"
+                              onChange="checkIfPasswordsMatch()"
+                           />
+                           <p id="passwordError" style="visibility: hidden"></p>
+                        </div>
+                        <!-- form-group confirm password// -->
+                        <div class="form-group">
+                           <button
+                              type="button"
+                              class="btn btn-primary btn-block"
+                              name="signUpSubmit"
+                              onClick="submitForm()"
+                           >
+                              Register
+                           </button>
+                        </div>
+                        <!-- form-group// -->
+                     </form>
+                  </article>
+               </div>
+               <!-- card.// -->
+            </div>
+            <!-- row.// -->
+         </div>
+         <!-- col.// -->
+      </div>
+   </body>
 </html>
