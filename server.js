@@ -17,15 +17,6 @@ require("dotenv").config(); // for database connection
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Middleware to check if the user is logged in
-function requireLogin(req, res, next) {
-   if (!req.user) {
-      res.redirect("/login");
-   } else {
-      next();
-   }
-}
-
 //SESSION INITIALIZATION
 app.set("trust proxy", 1); // trust first proxy
 
@@ -57,6 +48,7 @@ app.get("/", function(req, res) {
 // For registration
 app.post("/register", handleRegister);
 app.post("/login", handleLogin);
+app.post('/logout', logout);
 
 server.listen(port, () => {
    console.log(`Listening on port: ${port}`);
@@ -125,10 +117,6 @@ function handleLogin(req, res) {
             console.log(`There was an error verifying user: ${err}`);
          } else if (results) {
             // Passwords match
-
-            console.log(`This is what the password is ${password}`);
-
-            // TODO: We should start a session here
             req.session.user = username;
 
             // And we finally redirect them to the home page
@@ -192,4 +180,9 @@ function loginUser(username, callback) {
       console.log(`DB Query Finished`);
       callback(null, result.rows);
    });
+}
+
+
+function logout() {
+   req.session.destroy();
 }
