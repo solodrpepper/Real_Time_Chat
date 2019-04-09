@@ -4,7 +4,7 @@ const app = express();
 const session = require("express-session"); // for sessions
 const bcrypt = require("bcrypt"); // for bycrpt
 const { Pool } = require("pg"); // for pooling
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -27,14 +27,16 @@ function requireLogin(req, res, next) {
 }
 
 //SESSION INITIALIZATION
-app.set('trust proxy', 1) // trust first proxy
+app.set("trust proxy", 1); // trust first proxy
 
-app.use(session({
-  secret: 'tacocat',
-  resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
-}));
+app.use(
+   session({
+      secret: "tacocat",
+      resave: false,
+      saveUninitialized: true,
+      cookie: { secure: true }
+   })
+);
 
 // MOST LIKELY WILL NEED TO MOVE TO MODEL
 users = [];
@@ -48,10 +50,8 @@ app.use(express.static("public"));
 
 app.get("/", function(req, res) {
    // Check if user is logged in
-   if (!req.session.user)
-      res.redirect("login.html");
-   else
-      res.sendFile('public/home.html');
+   if (!req.session.user) res.redirect("login.html");
+   else res.sendFile("public/home.html");
 });
 
 // For registration
@@ -132,7 +132,11 @@ function handleLogin(req, res) {
             req.session.user = username;
 
             // And we finally redirect them to the home page
-            res.redirect("home.html");
+            res.writeHead(302, {
+               Location: "home.html"
+            });
+
+            res.end();
          } else {
             // Passwords don't match
             // TODO: Handle the mismatch
@@ -149,8 +153,7 @@ const myPool = new Pool({ connectionString: connectionString });
 
 // Create a new user by connecting to the database
 function createUser(username, password, callback) {
-   const sql =
-      "INSERT INTO users (username, hash) VALUES ($1, $2)";
+   const sql = "INSERT INTO users (username, hash) VALUES ($1, $2)";
 
    bcrypt.genSalt(12, function(err, salt) {
       if (err)
@@ -187,8 +190,6 @@ function loginUser(username, callback) {
          callback(err, null);
       }
       console.log(`DB Query Finished`);
-      console.log(`This is what the database is returning ${result.hash}`);
-      console.log(`This is what the database is returning ${result.rows[0].hash}`);
       callback(null, result.rows);
    });
 }
