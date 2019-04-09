@@ -147,7 +147,7 @@ const myPool = new Pool({ connectionString: connectionString });
 // Create a new user by connecting to the database
 function createUser(username, password, callback) {
    const sql =
-      "INSERT INTO users (username, hash, active_status) VALUES ($1, $2, 0)";
+      "INSERT INTO users (username, hash) VALUES ($1, $2)";
 
    bcrypt.genSalt(12, function(err, salt) {
       if (err)
