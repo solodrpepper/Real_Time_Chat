@@ -185,4 +185,5 @@ function loginUser(username, callback) {
 
 function logout() {
    req.session.destroy();
+   res.redirect('login.html');
 }
