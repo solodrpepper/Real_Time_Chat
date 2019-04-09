@@ -120,7 +120,7 @@ function handleLogin(req, res) {
          console.log(`Encountered and error while logging in: ${err}`);
       }
       // compare password with stored hash
-      bcrypt.compare(password, hash, function(err, res) {
+      bcrypt.compare(String(password), String(hash), function(err, res) {
          if (err) {
             console.log(`There was an error verifying user: ${err}`);
          } else if (res) {
