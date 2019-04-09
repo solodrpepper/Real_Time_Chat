@@ -48,7 +48,7 @@ app.use(express.static("public"));
 
 app.get("/", function(req, res) {
    // Check if user is logged in
-   if (!res.session.user)
+   if (!req.session.user)
       res.redirect("login.html");
    else
       res.sendFile('public/home.html');
