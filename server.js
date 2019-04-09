@@ -48,8 +48,10 @@ app.use(express.static("public"));
 
 app.get("/", function(req, res) {
    // Check if user is logged in
-   //res.sendFile(__dirname + "/public/home.html");
-   res.redirect("login.html");
+   if (!res.session.username)
+      res.redirect("login.html");
+   else
+      res.sendFile('public/home.html');
 });
 
 // For registration
