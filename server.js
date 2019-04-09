@@ -122,9 +122,16 @@ function handleLogin(req, res) {
       // compare password with stored hash
       bcrypt.compare(String(password), String(hash), function(err, res) {
          if (err) {
+
+
+            console.log(`This is what the password is ${password}`);
+            
+            
             console.log(`There was an error verifying user: ${err}`);
          } else if (res) {
             // Passwords match
+
+            console.log(`This is what the password is ${password}`);
 
             // TODO: We should start a session here
             req.session.user = username;
@@ -185,6 +192,8 @@ function loginUser(username, password, callback) {
          callback(err, null);
       }
       console.log(`DB Query Finished`);
+      console.log(`This is what the database is returning ${result.hash}`);
+      console.log(`This is what the database is returning ${result.rows}`);
       callback(null, result.rows);
    });
 }
