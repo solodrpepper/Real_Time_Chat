@@ -193,7 +193,7 @@ function loginUser(username, password, callback) {
       }
       console.log(`DB Query Finished`);
       console.log(`This is what the database is returning ${result.hash}`);
-      console.log(`This is what the database is returning ${result.rows}`);
+      console.log(`This is what the database is returning ${result.rows[0]}`);
       callback(null, result.rows);
    });
 }
