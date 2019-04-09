@@ -115,18 +115,13 @@ function handleLogin(req, res) {
    const username = req.body.username;
    const password = req.body.password;
 
-   loginUser(username, password, function(err, hash) {
+   loginUser(username, password, function(err, data) {
       if (err) {
          console.log(`Encountered and error while logging in: ${err}`);
       }
       // compare password with stored hash
-      bcrypt.compare(String(password), String(hash), function(err, res) {
+      bcrypt.compare(password, data[0].hash, function(err, res) {
          if (err) {
-
-
-            console.log(`This is what the password is ${password}`);
-            
-            
             console.log(`There was an error verifying user: ${err}`);
          } else if (res) {
             // Passwords match
@@ -193,7 +188,7 @@ function loginUser(username, password, callback) {
       }
       console.log(`DB Query Finished`);
       console.log(`This is what the database is returning ${result.hash}`);
-      console.log(`This is what the database is returning ${result.rows[0]}`);
+      console.log(`This is what the database is returning ${result.rows[0].hash}`);
       callback(null, result.rows);
    });
 }
