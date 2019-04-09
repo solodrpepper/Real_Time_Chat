@@ -115,7 +115,7 @@ function handleLogin(req, res) {
    const username = req.body.username;
    const password = req.body.password;
 
-   loginUser(username, password, function(err, data) {
+   loginUser(username, function(err, data) {
       if (err) {
          console.log(`Encountered and error while logging in: ${err}`);
       }
@@ -176,7 +176,7 @@ function createUser(username, password, callback) {
 }
 
 // This methos will log in the user by verifying their password
-function loginUser(username, password, callback) {
+function loginUser(username, callback) {
    const sql = "SELECT hash FROM users u WHERE u.username = $1";
    const params = [username];
 
