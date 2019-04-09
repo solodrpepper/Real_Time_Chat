@@ -48,7 +48,7 @@ app.get("/", function(req, res) {
 // For registration
 app.post("/register", handleRegister);
 app.post("/login", handleLogin);
-app.post('/logout', logout);
+app.post("/logout", logout);
 
 server.listen(port, () => {
    console.log(`Listening on port: ${port}`);
