@@ -134,6 +134,7 @@ function handleLogin(req, res) {
          } else {
             // Passwords don't match
             // TODO: Handle the mismatch
+            console.log(`Sorry, username or password didn't match`);
          }
       });
    });
